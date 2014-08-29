@@ -61,6 +61,24 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
         print id(self)
         print data
 
+    def build(self):
+        msg ={
+                "name": "blueberry",
+                "uid": 4011,
+                "id": str(uuid.uuid4()),
+                "type": 4,  # build
+                "tasks":[{
+                    "build": {
+                        "group":"mirror",
+                        "name":"go-daemon",
+                        "version":"8c109c3595de86933e170b51982ade962428f62b",
+                        "base":"10.1.201.99:8882/nbeimage/busybox:latest",
+                        "build":"exit 127",
+                    },
+                }]
+        }
+        LeviTestHandler.send_updates(msg)
+
     def add(self):
         msg = {
                 "name": "blueberry",
@@ -110,6 +128,8 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
         elif message.startswith("del"):
             m = message.split(" ", 2)[1]
             self.delete(m)
+        elif message == "build":
+            self.build()
         else:
             return
 
