@@ -71,7 +71,7 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                     "build": {
                         "group":"mirror",
                         "name":"go-daemon",
-                        "version":"8c109c3595de86933e170b51982ade962428f62b",
+                        "version":"8c109c3",
                         "base":"10.1.201.99:8882/nbeimage/busybox:latest",
                         "build":"ls -al",
                     },
