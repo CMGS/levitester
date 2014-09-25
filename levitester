@@ -63,43 +63,63 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
 
     def build(self):
         msg ={
-                "name": "blueberry",
+                "name": "nbetest",
                 "uid": 4011,
                 "id": str(uuid.uuid4()),
                 "type": 4,  # build
                 "tasks":[{
                     "build": {
-                        "group":"mirror",
-                        "name":"go-daemon",
-                        "version":"8c109c3",
-                        "base":"10.1.201.99:8882/nbeimage/busybox:latest",
-                        "build":"ls -al",
+                        "group":"platform",
+                        "name":"nbetest",
+                        "version":"082d405",
+                        "base":"10.1.201.99:8882/nbeimage/ubuntu:python-2014.9.18",
+                        "build":"pip install -r requirements.txt",
+                        "static":"static",
                     },
                 }]
         }
         LeviTestHandler.send_updates(msg)
 
+    def test(self):
+        msg = {
+                "name": "nbetest",
+                "uid": 4011,
+                "id": str(uuid.uuid4()),
+                "type": 5,  # test
+                "tasks":[
+                    {
+                        "version": "082d405",
+                        "cmd": ["python", "xxx.py"],
+                        "memory": 4294967296,
+                        "cpuset": "0",
+                        "cpushares": 512,
+                        "test": "2266c74",
+                    },
+                ]
+              }
+        LeviTestHandler.send_updates(msg)
+
     def add(self):
         msg = {
-                "name": "blueberry",
+                "name": "nbetest",
                 "uid": 4011,
                 "id": str(uuid.uuid4()),
                 "type": 1,  # add
                 "tasks":[
                     {
-                        "version": "ce1b974",
+                        "version": "082d405",
                         "cmd": ["python", "app.py"],
                         "memory": 4294967296,
-                        "cpus": 100,
-                        "config": {"mysql": {"user": "cmgs"}},
-                        "daemon": "2266c74",
+                        "cpuset": "0",
+                        "cpushares": 512,
+                        "daemon": "2266c75",
                     },
                     {
-                        "version": "ce1b974",
+                        "version": "082d405",
                         "cmd": ["python", "app.py"],
                         "memory": 4294967296,
-                        "cpus": 100,
-                        "config": {},
+                        "cpuset": "0",
+                        "cpushares": 512,
                         "bind": 49072,
                         "port": 5000,
                     },
@@ -109,7 +129,7 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
 
     def delete(self, cid):
         msg = {
-                "name": "blueberry",
+                "name": "nbetest",
                 "uid": 4011,
                 "id": str(uuid.uuid4()),
                 "type": 2,  # delete
@@ -130,6 +150,8 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
             self.delete(m)
         elif message == "build":
             self.build()
+        elif message == "test":
+            self.test()
         else:
             return
 
