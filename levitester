@@ -127,6 +127,16 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
         }
         LeviTestHandler.send_updates(msg)
 
+    def report(self):
+        msg = {
+                "name": "__host_info__",
+                "version": "__info_version__",
+                "host": "127.0.0.1",
+                "type": 6,
+                "uid": 0,
+        }
+        LeviTestHandler.send_updates(msg)
+
     def delete(self, cid):
         msg = {
                 "name": "nbetest",
@@ -152,6 +162,8 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
             self.build()
         elif message == "test":
             self.test()
+        elif message == "report":
+            self.report()
         else:
             return
 
