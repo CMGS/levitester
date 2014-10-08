@@ -66,17 +66,17 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                 "name": "nbetest",
                 "uid": 4011,
                 "id": str(uuid.uuid4()),
-                "type": 4,  # build
-                "tasks":[{
-                    "build": {
-                        "group":"platform",
-                        "name":"nbetest",
-                        "version":"082d405",
-                        "base":"10.1.201.99:8882/nbeimage/ubuntu:python-2014.9.18",
-                        "build":"pip install -r requirements.txt",
-                        "static":"static",
-                    },
-                }]
+                "tasks":{
+                    "build": [
+                        {
+                            "group":"platform",
+                            "name":"nbetest",
+                            "version":"18e02fa",
+                            "base":"docker-registry.intra.hunantv.com/nbeimage/ubuntu:python-2014.9.30",
+                            "build":"pip install -r requirements.txt",
+                        },
+                    ],
+                }
         }
         LeviTestHandler.send_updates(msg)
 
@@ -85,18 +85,17 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                 "name": "nbetest",
                 "uid": 4011,
                 "id": str(uuid.uuid4()),
-                "type": 5,  # test
-                "tasks":[
-                    {
-                        "version": "082d405",
+                "tasks":{
+                    "add": [{
+                        "version": "18e02fa",
                         "cmd": ["python", "xxx.py"],
                         "memory": 4294967296,
                         "cpuset": "0",
                         "cpushares": 512,
                         "test": "2266c74",
-                    },
-                ]
+                    }],
               }
+        }
         LeviTestHandler.send_updates(msg)
 
     def add(self):
@@ -105,9 +104,9 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                 "uid": 4011,
                 "id": str(uuid.uuid4()),
                 "type": 1,  # add
-                "tasks":[
-                    {
-                        "version": "082d405",
+                "tasks":{
+                    "add":[{
+                        "version": "18e02fa",
                         "cmd": ["python", "app.py"],
                         "memory": 4294967296,
                         "cpuset": "0",
@@ -115,25 +114,22 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                         "daemon": "2266c75",
                     },
                     {
-                        "version": "082d405",
+                        "version": "18e02fa",
                         "cmd": ["python", "app.py"],
                         "memory": 4294967296,
                         "cpuset": "0",
                         "cpushares": 512,
                         "bind": 49072,
                         "port": 5000,
-                    },
-                ],
+                    }],
+                },
         }
         LeviTestHandler.send_updates(msg)
 
     def report(self):
         msg = {
-                "name": "__host_info__",
-                "version": "__info_version__",
-                "host": "127.0.0.1",
-                "type": 6,
-                "uid": 0,
+                "id": str(uuid.uuid4()),
+                "info": True,
         }
         LeviTestHandler.send_updates(msg)
 
@@ -142,12 +138,12 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                 "name": "nbetest",
                 "uid": 4011,
                 "id": str(uuid.uuid4()),
-                "type": 2,  # delete
-                "tasks":[
-                    {
+                "tasks":{
+                    "remove":[{
                         "container": cid,
-                    }
-                ]
+                        "rmimage": False,
+                    }]
+                }
         }
         LeviTestHandler.send_updates(msg)
 
