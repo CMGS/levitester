@@ -69,6 +69,7 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                 "tasks":{
                     "build": [
                         {
+                            "id": 123,
                             "group":"platform",
                             "name":"nbetest",
                             "version":"18e02fa",
@@ -87,6 +88,7 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                 "id": str(uuid.uuid4()),
                 "tasks":{
                     "add": [{
+                        "id": 456,
                         "version": "18e02fa",
                         "cmd": ["python", "xxx.py"],
                         "memory": 4294967296,
@@ -106,6 +108,7 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                 "type": 1,  # add
                 "tasks":{
                     "add":[{
+                        "id": 789,
                         "version": "18e02fa",
                         "cmd": ["python", "app.py"],
                         "memory": 4294967296,
@@ -114,6 +117,7 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                         "daemon": "2266c75",
                     },
                     {
+                        "id": 012,
                         "version": "18e02fa",
                         "cmd": ["python", "app.py"],
                         "memory": 4294967296,
