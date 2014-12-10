@@ -144,8 +144,23 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
                 "id": str(uuid.uuid4()),
                 "tasks":{
                     "remove":[{
+                        "id": 011,
                         "container": cid,
                         "rmimage": False,
+                    }]
+                }
+        }
+        LeviTestHandler.send_updates(msg)
+
+    def update(self, cid):
+        msg = {
+                "name": "nbetest",
+                "uid": 4011,
+                "id": str(uuid.uuid4()),
+                "tasks":{
+                    "update":[{
+                        "container": cid,
+                        "id": 013,
                     }]
                 }
         }
@@ -158,6 +173,9 @@ class LeviTestHandler(tornado.websocket.WebSocketHandler):
         elif message.startswith("del"):
             m = message.split(" ", 2)[1]
             self.delete(m)
+        elif message.startswith("update"):
+            m = message.split(" ", 2)[1]
+            self.update(m)
         elif message == "build":
             self.build()
         elif message == "test":
